@@ -1,0 +1,38 @@
+<style>
+        .card-registration{
+        background-color:Lavender;
+
+        }
+
+        #ftco-navbar{
+        background-color:RosyBrown;
+        font-size: 17px;
+        font-weight: 600;
+        color:#B8860B;
+         }
+    </style>
+
+<nav class="navbar navbar-expand-lg  py-2 mt-1 pb-1" id="ftco-navbar">
+	    <div class="container d-flex align-items-center px-4 mt-1">
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="oi oi-menu"></span> Menu
+	      </button>
+
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav mr-auto">
+                   {% if user is authenticated %}
+				 <h5 style="color:brown">Hello {{user.username}} ,&nbsp; &nbsp; &nbsp; &nbsp;</h5>
+				   {% else %}
+	        	<li class="nav-item active"><a href="/" class="nav-link pl-0">Home&nbsp; &nbsp;&nbsp; &nbsp;</a></li>
+
+				<li class="nav-item"><a href="{% url 'credentials:logout' %}" class="nav-link">Logout&nbsp; &nbsp;&nbsp; &nbsp;</a></li>
+	          <li class="nav-item"><a href="#" class="nav-link">Contact&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;</a></li>
+                  {% endif %}
+	        </ul>
+	      </div>
+	    </div>
+	  </nav>
+
+<div class="bg-image mt-1" style="background-image: url('https://images.adsttc.com/media/images/573c/90c0/e58e/ce1e/1600/0007/newsletter/Here_is_a_theater_to_unfold_an_outstanding_drama__and_the_characters_are_book_lovers_sitting_on_the_soft_couch_or_standing_beside_the_bookshelves._0004.jpg?1463587001');
+    height: 25vh;">
+</div>

@@ -1,0 +1,248 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Place Your Order Here</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+
+    <style>
+        .card-registration{
+        background-color:Lavender;
+
+        }
+
+        #ftco-navbar{
+        background-color:#D4A017;
+        font-size: 17px;
+        font-weight: 600;
+        color:#B8860B;
+         }
+    </style>
+    <script>
+    function getCourses()
+    {
+        let depart=document.getElementById('depart');
+        course.innerHTML = '';
+        course.innerHTML = `<option selected>Select Course</option>`
+
+         let url=`/get_courses/${depart.value}/`;
+            fetch(url,{
+            method: "GET",
+            headers: {
+            'Content-Type' : 'application/json',
+            'Accept' : 'application/json'
+            }
+           })
+          .then(response => {
+                return response.json();
+              })
+          .then(data => {
+
+            for(let d of data){
+                course.innerHTML += `<option>${d.name}</option>`
+                console.log(data);
+                }
+            })
+          .catch(error => {
+          console.log(error)
+          })
+    }
+
+
+    function getAge(){
+
+    var userinput = document.getElementById('dob').value;
+    var dob = new Date(userinput);
+
+    //calculate month difference from current date in time
+    var month_diff = Date.now() - dob.getTime();
+
+    //convert the calculated difference in date format
+    var age_dt = new Date(month_diff);
+
+    //extract year from date
+    var year = age_dt.getUTCFullYear();
+
+    //now calculate the age of the user
+    var age = Math.abs(year - 1970);
+
+    //display the calculated age
+    document.getElementById('age').value = age;
+    }
+
+</script>
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg  py-2 mt-1 pb-1" id="ftco-navbar">
+	    <div class="container d-flex align-items-center px-4 mt-1">
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="oi oi-menu"></span> Menu
+	      </button>
+
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav mr-auto">
+
+				 <h5 style="color:brown">Hello {{user.username}} ,&nbsp; &nbsp; &nbsp; &nbsp;</h5>
+	        	<li class="nav-item active"><a href="/" class="nav-link pl-0">Home&nbsp; &nbsp;&nbsp; &nbsp;</a></li>
+
+				<li class="nav-item"><a href="{% url 'credentials:logout' %}" class="nav-link">Logout&nbsp; &nbsp;&nbsp; &nbsp;</a></li>
+	          <li class="nav-item"><a href="#" class="nav-link">Contact&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;</a></li>
+
+	        </ul>
+	      </div>
+	    </div>
+	  </nav>
+
+<div class="bg-image" style="background-image: url('https://media.cntraveler.com/photos/5edf98c162bb344a7a7bab53/16:9/w_1920,c_limit/SistersUptownBooks-NYC-WTJ2W3.jpg');
+    height: 115vh;">
+<section class="vh-100 gradient-custom">
+  <div class="container py-4 h-80">
+    <div class="row justify-content-center align-items-center h-100">
+      <div class="col-12 col-lg-12 col-xl-12">
+        <div class="card shadow-2-strong card-registration"  style="border-radius: 15px;">
+          <div class="card-body p-1 p-md-4">
+            <h3 class="mb-1 pb-1 pb-md-0 mb-md-4">Place your Order Here </h3>
+            <div>
+              <form action="" method="post" name="form1" class="mx-1 mx-md-4">
+                    {%csrf_token %}
+                     {% if error %}
+                     <div class="alert alert-danger" role="alert">
+                         <h6 style="color:red">{{error}}</h6>
+                     </div>
+                     {% endif %}
+              <div class="row">
+                 <div class="col-md-6 mb-3">
+                   <div class="form-outline">
+                      <label class="form-label"><b>Enter your Name:*</b></label>
+                      <input type="text" name="name" class="form-control" required/>
+                    </div>
+                 </div>
+
+                <div class="col-md-6 mb-3">
+                  <div class="form-outline">
+                     <label class="form-label" ><b>Enter your DOB:*</b></label>
+                    <input type="date" id="dob" name="dob" class="form-control" onchange="getAge()" required/>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3 d-flex align-items-center">
+
+                  <div class="form-outline datepicker w-100">
+                    <label class="form-label" ><b>Enter your Age:*</b></label>
+                    <input type="text" id="age" name="age" class="form-control" readonly/>
+                  </div>
+
+                </div>
+                <div class="col-md-6 mb-3">
+
+                  <h6 class="mb-2 pb-1">Gender: </h6>
+
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" id="femaleGender"
+                      value="option1" required />
+                    <label class="form-check-label" name="Female" for="femaleGender" >Female</label>
+                  </div>
+
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" id="maleGender"
+                      value="option2" required/>
+                    <label class="form-check-label" for="maleGender">Male</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3 pb-1">
+
+                  <div class="form-outline">
+                    <label class="form-label"><b>Enter your Mobile Number:*</b></label>
+                    <input type="number" name="mobile" class="form-control" required/>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-3 pb-1">
+                  <div class="form-outline">
+                    <label class="form-label" ><b>Enter your Email:*</b></label>
+                    <input type="email" name="email" class="form-control" required/>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12 mb-3 pb-1">
+               <label class="form-label" ><b>Enter your Address:*</b></label>
+                <input type="text" name="address" class="form-control" required/>
+                </div>
+              </div>
+
+            <div class="row">
+
+              <div class="col-md-6 mb-3 pb-1">
+                <label class="form-label"><b>Department:*</b></label>
+
+                <select id="depart" onchange="getCourses()" name="department" required>
+                  <option selected>Select Department</option>
+                  {% for i in departs %}
+                      <option>{{i.name}}</option>
+                  {% endfor %}
+                </select>
+
+                </div>
+              <div class="col-md-6 mb-3 pb-1">
+                <label class="form-label"><b>Courses:*</b></label>
+                   <select  id="course"  name="course" required>
+                      <option selected>Select Course</option>
+                          {% for i in course %}
+                      <option>{{i.name}}</option>
+                         {% endfor %}
+                   </select>
+
+                </div>
+              </div>
+            <div class="row">
+              <div class="col-md-6 mb-3 pb-1">
+                <label class="form-label"><b>Purpose:* </b></label>
+
+                      <select id="purpose" name="purpose"  required>
+                      <option selected>Select Purpose</option>
+                          {% for i in purpose %}
+                      <option>{{i.name}}</option>
+                         {% endfor %}
+                      </select>
+
+              </div>
+              <div class="col-md-6 mb-3 pb-1">
+                <label class="form-label"><b>Materials provide:*&nbsp; &nbsp;</b></label>
+                         {% for i in materials %}
+                      <input type="checkbox" name="checks[]" id="{{i.id}}"  value="{{i.name}}">
+                      <label for="{{i.id}}"> {{i.name}}</label>&nbsp;
+                         {% endfor %}
+              </div>
+            </div>
+            <div class="row">
+            <div class="col-12 text-center">
+                <input type="submit" class="btn btn-primary w-100" id="submit" value="PLace Order">
+            </div>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+</section>
+</div>
+<div class="row">
+{% include 'footer.html' %}
+</div>
+</body>
+</html>

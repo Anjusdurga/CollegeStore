@@ -1,0 +1,220 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Place Your Order Here</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+    function getCourses(){
+        let depart=document.getElementById('depart');
+        course.innerHTML = '';
+        course.innerHTML = `<option selected>Select Course</option>`
+         let url=`/get_courses/${depart.value}/`;
+            fetch(url,{
+            method: "GET",
+            headers: {
+            'Content-Type' : 'application/json',
+            'Accept' : 'application/json'
+            }
+           })
+          .then(response => {
+                return response.json();
+              })
+          .then(data => {
+
+            for(let d of data){
+                course.innerHTML += `<option value="${d.id}">${d.name}</option>`
+                console.log(data);
+                }
+            })
+          .catch(error => {
+          console.log(error)
+          })
+    }
+
+    </script>
+    <style>
+    h6{
+    color:red;
+    text-indent: 10px;
+    }
+  </style>
+</head>
+<body>
+<!--   set action field with the name given credentials--urls--path('register',...)-->
+
+<section class="vh-150" style="background-color: #eee;">
+  <div class="container">
+    <div class="row d-flex justify-content-center align-items-center">
+      <div class="col-lg-12 col-xl-11">
+         <div class="row justify-content-center">
+              <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+
+                <p class="text-center h4 fw-bold mb-2 mx-1 mx-md-4 mt-1">Place Your Order Here</p>
+
+                 <form action="" method="post" class="mx-1 mx-md-4">
+                    {%csrf_token %}
+                     {% if error %}
+                     <div class="alert alert-danger" role="alert">
+                         <h6 style="color:red">{{error}}</h6>
+                     </div>
+                     {% endif %}
+                  <div class="d-flex flex-row align-items-center mb-1">
+                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+
+                      <div><label class="form-label">Enter your Name:</label></div>
+                      <div><input type="text" name="name" class="form-control" value="{{values.username}}" required/></div>
+                    </div>
+                  </div>
+
+                     <div class="d-flex flex-row align-items-center mb-1">
+                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+
+                      <label class="form-label" >Enter your DOB:</label>
+                        <input type="date" name="dob" class="form-control" value="{{values.firstname}}" required/>
+                    </div>
+                  </div>
+
+                      <div class="d-flex flex-row align-items-center mb-1">
+                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+
+                      <div><label class="form-label" >Enter your Age:</label></div>
+                      <div><input type="text" name="age" class="form-control" value="{{values.username}}" required/></div>
+                    </div>
+                  </div>
+
+
+                  <div class="d-flex flex-row align-items-center mb-1">
+                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+
+                      <label class="form-label" >Gender :</label>
+                         <input type="radio" id="age1" name="age" value="30" required>
+                            <label for="age1">Male</label>
+                         <input type="radio" id="age2" name="age" value="60" required>
+                            <label for="age2">Female</label><br>
+                    </div>
+                  </div>
+
+                      <div class="d-flex flex-row align-items-center mb-1">
+                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+
+                      <div><label class="form-label" >Enter your Mobile Number:</label></div>
+                      <div><input type="number" name="mobile" class="form-control" value="{{values.username}}" required/></div>
+                    </div>
+                  </div>
+
+
+                  <div class="d-flex flex-row align-items-center mb-1">
+                    <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+
+                      <label class="form-label" >Enter your Email:</label>
+                       <input type="email" name="email" class="form-control" required/>
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center mb-1">
+                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+
+                      <div><label class="form-label" >Enter your Address:</label></div>
+                      <div><input type="text" name="address" class="form-control" value="{{values.username}}" required/></div>
+                    </div>
+                  </div>
+
+
+                  <div class="d-flex flex-row align-items-center mb-1">
+                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+
+                      <div><label class="form-label">Department:*</label>
+
+                      <select id="depart" onchange="getCourses()" required>
+                      <option selected>Select Department</option>
+                          {% for i in departs %}
+                      <option value="{{i.id}}">{{i.name}}</option>
+                         {% endfor %}
+                      </select>
+                      </div>
+                    </div>
+                  </div>
+
+                 <div class="d-flex flex-row align-items-center mb-1">
+                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+
+                      <div><label class="form-label">Courses:*</label>
+
+                      <select  id="course" required>
+                      <option selected>Select Course</option>
+                          {% for i in courses %}
+                      <option value="{{i.name}}">{{i.name}}</option>
+                         {% endfor %}
+                      </select>
+                      </div>
+                    </div>
+                  </div>
+                 </form>
+             </div>
+
+              <div class="row justify-content-center">
+              <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+
+                 <div class="d-flex flex-row align-items-center mb-1">
+                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+
+                      <div><label class="form-label">Purpose:*</label>
+
+                      <select id="purpose" required>
+                      <option selected>Select Purpose</option>
+                          {% for i in purpose %}
+                      <option value="{{i.id}}">{{i.name}}</option>
+                         {% endfor %}
+                      </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center mb-1">
+                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+
+                      <div><label class="form-label">Materials provide:*</label>
+                         {% for i in materials %}
+                      <input type="checkbox" id="{{i.id}}"  value="{{i.name}}">
+                      <label for="{{i.id}}"> {{i.name}}</label>
+                         {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+
+
+           <div class="d-flex justify-content-left mx-4 mb-0 mb-lg-4">
+                    <input type="submit" value="Register" class="btn btn-primary btn-lg">
+                {% for i in context %}
+                 <h6>   {{i.messages}}</h6>
+                 {% endfor %}
+                  </div>
+           </div>
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>div
+</section>
+</body>
+</html>
