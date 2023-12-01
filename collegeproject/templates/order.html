@@ -108,7 +108,7 @@
           <div class="card-body p-1 p-md-4">
             <h3 class="mb-1 pb-1 pb-md-0 mb-md-4">Place your Order Here </h3>
             <div>
-              <form action="" method="post" name="form1" class="mx-1 mx-md-4">
+              <form action="" method="post" name="form1" class="mx-1 mx-md-4" onsubmit="return validate()" autocomplete="off">
                     {%csrf_token %}
                      {% if error %}
                      <div class="alert alert-danger" role="alert">
